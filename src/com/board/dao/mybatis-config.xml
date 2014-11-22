@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+ <configuration>
+ 	
+ 	<!-- 디비접속 정보 프로퍼티 읽어오기 -->
+ 	<properties resource="com/board/dao/database.properties"/>
+ 	
+ 	<!--  클래스 타입 닉네음 설정 sqlMapper.xml 에서 사용 (기본 데이터형은 자동으로 되어있음) -->
+ 	<typeAliases>
+ 		<typeAlias type="com.board.vo.Board" alias="board"/>
+ 		<typeAlias type="com.board.vo.User" alias="user"/>
+ 	</typeAliases>
+ 	
+ 	<!-- 트래잭션 및 리소스 정보 태그   environment 태그를 이용 여러개의 database서버를 셋팅 할수 있다. defaoult. 속성값으로 db선택-->
+ 	<environments default="development">
+ 		<environment id="development">
+ 			
+ 			<transactionManager type="jdbc"/>
+ 			<dataSource type="POOLED">
+ 				<property name="driver"	 value="${driver}"/>
+ 				<property name="url" value="${url}"/>
+ 				<property name="username" value="${username}"/>
+ 				<property name="password" value="${password}"/>
+ 			</dataSource>
+ 			
+ 			<!-- 서버 디비 ConnectionPool 사용시
+ 			<dataSource type="JNDI">
+ 				<property name="data_source"value="java:comp/env/jdbc/boarddb"/>
+ 			</dataSource> -->
+ 		</environment>
+ 	</environments>
+ 	
+ 	<mappers>
+ 		<mapper resource="com/board/dao/mysqlDao/BoardDaoMapper.xml"/>
+ 		<mapper resource="com/board/dao/mysqlDao/UserDaoMapper.xml"/>
+ 	</mappers>
+ </configuration>

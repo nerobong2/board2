@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.board.dao.boardDao">
+ 
+ 	<!-- config.xml에 정의된 객체 닉네임  닉네임에 한번 더 아이디를 부여 select 시 사용 -->
+ 	<resultMap type="board" id="resultMap">
+ 	
+ 		<result column="BOARDNO" property="boardNo"/>
+ 		<result column="BOARDSUBJECT" property="boardSubject"/>
+ 		<result column="BOARDCONTENT" property="boardContent"/>
+ 		<result column="REGDATE" property="regDate" javaType="java.sql.Date"/>
+ 		<result column="WRITENO" property="writerNo"/>
+ 		<result column="USERNAME" property="writerName"/>
+ 		
+ 	</resultMap>
+ 	<select id="getBoardList" resultMap="resultMap">
+ 	
+ 		select t1.boardNo, t1.boardSubject, t1.regDate, t2.userName
+ 		from  board t1, user t2
+ 		where t1.writerNo = t2.userNo
+ 		order by t1.boardNo asc
+ 		
+ 	</select>
+ 	<select id="getBoard" parameterType="board" resultMap="resultMap">
+ 		select t1.boardNo, t1.boardSubject, t1.regDate,t1.boardContent, t2.userName
+ 		from  board t1, user t2
+ 		where t1.writerNo = t2.userNo
+ 		and t1.boardNo = #{boardNo}
+ 	</select>
+ 	<insert id="writeBoard" parameterType="board">
+ 	
+ 		insert into Board(boardSubject,boardContent,writerNo,regDate)
+ 		values(#{boardSubject},#{boardContent},#{writerNo},now())
+ 		
+ 	</insert>
+ 
+ </mapper>
+ 
